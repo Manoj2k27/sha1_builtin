@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SHA-1 Digest Demo</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 40px; }
+    input, button { font-size: 1rem; margin: 5px; }
+    #digest { margin-top: 20px; font-weight: bold; color: #333; }
+  </style>
+</head>
+<body>
+  <h2>SHA-1 Digest Generator</h2>
+  <input type="text" id="message" placeholder="Enter message" />
+  <button onclick="generateDigest()">Get SHA-1 Digest</button>
+  <div id="digest"></div>
+
+  <script>
+    async function generateDigest() {
+      const msg = document.getElementById('message').value;
+      const encoder = new TextEncoder();
+      const data = encoder.encode(msg);
+      const buffer = await window.crypto.subtle.digest("SHA-1", data);
+      const digestArray = Array.from(new Uint8Array(buffer));
+      const hex = digestArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      document.getElementById('digest').textContent = hex;
+    }
+  </script>
+</body>
+</html>
